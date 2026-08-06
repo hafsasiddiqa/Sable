@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sable — AI Meeting Intelligence Platform
 
-## Getting Started
+Sable turns meeting transcripts into searchable, actionable knowledge. It automatically generates summaries, tracks action items, and lets you ask questions about any past meeting.
 
-First, run the development server:
+Live demo: coming soon
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Problem
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Teams lose decisions and commitments buried in meeting transcripts. Sable turns a transcript into a clear summary, trackable action items, and a searchable meeting history.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Next.js 14, TypeScript, Tailwind CSS, shadcn/ui, Lucide icons. Planned: Framer Motion, TanStack Query, Zustand, React Hook Form, Zod, NextAuth.js, Prisma, PostgreSQL.
 
-## Learn More
+## Features (current)
 
-To learn more about Next.js, take a look at the following resources:
+- Dashboard overview with stat cards and recent meetings
+- Meetings list with clickable cards linking to a detail view
+- Meeting detail page with transcript and tabbed AI panel (Summary, Action Items, Ask AI)
+- Action Items kanban board (To Do, In Progress, Done)
+- Settings page with profile form
+- Fully responsive with a mobile drawer navigation
+- Marketing landing page with pricing tiers and feature highlights
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features (in progress)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Authentication (NextAuth.js)
+- Real AI-powered summaries and Q&A with streaming responses
+- PostgreSQL database via Prisma, replacing current mock data
+- Dark mode toggle
+- Automated tests
 
-## Deploy on Vercel
+## Folder Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    src/
+      app/
+        (marketing)/       -> public landing page, served at "/"
+        (dashboard)/        -> authenticated app shell
+          dashboard/         -> overview page, served at "/dashboard"
+          meetings/           -> meetings list + "/meetings/[id]" detail page
+          actions/            -> action items kanban
+          settings/           -> account settings
+        layout.tsx          -> root layout
+        globals.css         -> Tailwind + theme CSS variables
+      components/
+        ui/                 -> shadcn/ui primitives (Button, Card, Tabs, Sheet, etc.)
+      lib/
+        utils.ts            -> shared utility functions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Local Setup
+
+    git clone https://github.com/YOUR_USERNAME/sable.git
+    cd sable
+    npm install
+    npm run dev
+
+Visit http://localhost:3000
+
+## Build
+
+    npm run build
+
+## Roadmap
+
+- [ ] Deploy to Vercel
+- [ ] Auth (NextAuth.js)
+- [ ] Real AI backend for summaries and Ask AI with streaming
+- [ ] PostgreSQL + Prisma
+- [ ] Dark mode
+- [ ] Test suite (Vitest + Playwright)
+- [ ] Semantic search across meetings
+- [ ] Team/workspace roles
+
+## Author
+
+Built as part of a self-directed portfolio project demonstrating production-level frontend engineering practices.

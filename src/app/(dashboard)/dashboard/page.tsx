@@ -1,20 +1,40 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { prisma } from "@/lib/prisma";
 
-const stats = [
-  { label: "Total Meetings", value: "128", trend: "+12 this month" },
-  { label: "Open Action Items", value: "24", trend: "6 due this week" },
-  { label: "This Week's Meetings", value: "9", trend: "3 upcoming" },
-];
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
 
-const recentMeetings = [
-  { title: "Q3 Roadmap Sync", date: "Aug 4, 2026", status: "Completed", initials: "JD" },
-  { title: "Client Onboarding Call", date: "Aug 4, 2026", status: "Completed", initials: "AK" },
-  { title: "Design Review", date: "Aug 3, 2026", status: "Action Items Pending", initials: "MS" },
-  { title: "Weekly Standup", date: "Aug 3, 2026", status: "Completed", initials: "JD" },
-];
+export default async function DashboardPage() {
+  const totalMeetings = await prisma.meeting.count();
+  const openActionItems = await prisma.actionItem.count({
+    where: { status: { not: "done" } },
+  });
 
-export default function DashboardPage() {
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const thisWeekMeetings = await prisma.meeting.count({
+    where: { date: { gte: oneWeekAgo } },
+  });
+
+  const recentMeetings = await prisma.meeting.findMany({
+    take: 4,
+    orderBy: { date: "desc" },
+    include: { owner: true },
+  });
+
+  const stats = [
+    { label: "Total Meetings", value: totalMeetings.toString(), trend: `${totalMeetings} total` },
+    { label: "Open Action Items", value: openActionItems.toString(), trend: "pending completion" },
+    { label: "This Week's Meetings", value: thisWeekMeetings.toString(), trend: "in the last 7 days" },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -48,18 +68,24 @@ export default function DashboardPage() {
           <div className="divide-y divide-border">
             {recentMeetings.map((meeting) => (
               <div
-                key={meeting.title}
+                key={meeting.id}
                 className="flex items-center justify-between px-6 py-3 hover:bg-accent/50 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <Avatar className="h-8 w-8">
                     <AvatarFallback className="text-xs">
-                      {meeting.initials}
+                      {getInitials(meeting.owner.name)}
                     </AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="text-sm font-medium">{meeting.title}</p>
-                    <p className="text-xs text-muted-foreground">{meeting.date}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {meeting.date.toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </p>
                   </div>
                 </div>
                 <span

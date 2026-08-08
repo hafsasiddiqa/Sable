@@ -1,59 +1,21 @@
-"use client";
-
-import { useState } from "react";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { prisma } from "@/lib/prisma";
+import { AskAiPanel } from "./ask-ai-panel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
-const transcript = `
-[00:00] JD: Alright, let's kick off the Q3 roadmap sync. First up — mobile redesign timeline.
-[00:14] AK: We're on track for the Aug 20th internal demo. Design handoff finished last week.
-[00:29] JD: Great. What about the API rate limiting work?
-[00:41] AK: Still in progress. We found an edge case with burst traffic that needs another day.
-[01:02] JD: Okay, let's flag that as a risk. Can you own a fix by end of week?
-[01:10] AK: Yes, I'll have it done by Friday.
-[01:18] JD: Perfect. Last item — Q3 OKR check-in scheduled for next Monday.
-`.trim();
+export default async function MeetingDetailPage({ params }: { params: { id: string } }) {
+  const meeting = await prisma.meeting.findUnique({
+    where: { id: params.id },
+    include: { owner: true, actionItems: true },
+  });
 
-const actionItems = [
-  { text: "Fix API rate limiting edge case", assignee: "AK", due: "Fri, Aug 8" },
-  { text: "Prepare Q3 OKR check-in deck", assignee: "JD", due: "Mon, Aug 11" },
-];
-
-export default function MeetingDetailPage({ params }: { params: { id: string } }) {
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function handleAsk() {
-    if (!question.trim() || loading) return;
-    setLoading(true);
-    setAnswer("");
-
-    const res = await fetch(`/api/meetings/${params.id}/ask`, {
-      method: "POST",
-    });
-
-    if (!res.body) {
-      setLoading(false);
-      return;
-    }
-
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      setAnswer((prev) => prev + decoder.decode(value));
-    }
-
-    setLoading(false);
+  if (!meeting) {
+    notFound();
   }
 
   return (
@@ -66,8 +28,15 @@ export default function MeetingDetailPage({ params }: { params: { id: string } }
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to Meetings
         </Link>
-        <h1 className="text-2xl font-semibold">Q3 Roadmap Sync</h1>
-        <p className="text-sm text-muted-foreground">Aug 4, 2026 · 42 min · Meeting #{params.id}</p>
+        <h1 className="text-2xl font-semibold">{meeting.title}</h1>
+        <p className="text-sm text-muted-foreground">
+          {meeting.date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })}{" "}
+          · {meeting.duration} · Meeting #{meeting.id}
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-6">
@@ -77,7 +46,7 @@ export default function MeetingDetailPage({ params }: { params: { id: string } }
           </CardHeader>
           <CardContent>
             <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-foreground/90">
-              {transcript}
+              {meeting.transcript}
             </pre>
           </CardContent>
         </Card>
@@ -93,16 +62,17 @@ export default function MeetingDetailPage({ params }: { params: { id: string } }
 
               <TabsContent value="summary">
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  The team confirmed the mobile redesign is on track for its Aug 20th demo.
-                  API rate limiting has an unresolved edge case with burst traffic, which AK
-                  will fix by Friday. A Q3 OKR check-in is scheduled for next Monday.
+                  {meeting.summary}
                 </p>
               </TabsContent>
 
               <TabsContent value="actions">
                 <div className="flex flex-col gap-3">
-                  {actionItems.map((item, i) => (
-                    <div key={i}>
+                  {meeting.actionItems.length === 0 && (
+                    <p className="text-sm text-muted-foreground">No action items for this meeting.</p>
+                  )}
+                  {meeting.actionItems.map((item, i) => (
+                    <div key={item.id}>
                       {i > 0 && <Separator className="mb-3" />}
                       <div className="flex items-start justify-between gap-3">
                         <p className="text-sm">{item.text}</p>
@@ -110,7 +80,7 @@ export default function MeetingDetailPage({ params }: { params: { id: string } }
                           <Avatar className="h-6 w-6">
                             <AvatarFallback className="text-[10px]">{item.assignee}</AvatarFallback>
                           </Avatar>
-                          <span className="text-xs text-muted-foreground">{item.due}</span>
+                          <span className="text-xs text-muted-foreground">{item.dueDate}</span>
                         </div>
                       </div>
                     </div>
@@ -119,24 +89,7 @@ export default function MeetingDetailPage({ params }: { params: { id: string } }
               </TabsContent>
 
               <TabsContent value="ask">
-                <div className="flex flex-col gap-3">
-                  <div className="rounded-lg bg-muted p-3 text-sm text-muted-foreground min-h-[80px]">
-                    {answer || 'Ask a question about this meeting — e.g. "What did AK commit to?"'}
-                    {loading && <span className="animate-pulse">▍</span>}
-                  </div>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="Ask about this meeting..."
-                      value={question}
-                      onChange={(e) => setQuestion(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleAsk()}
-                      disabled={loading}
-                    />
-                    <Button size="icon" onClick={handleAsk} disabled={loading}>
-                      <Send className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+                <AskAiPanel meetingId={meeting.id} />
               </TabsContent>
             </Tabs>
           </CardContent>

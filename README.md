@@ -63,8 +63,8 @@ Visit http://localhost:3000
 ## Roadmap
 
 - [ ] Deploy to Vercel
-- [ ] Auth (NextAuth.js)
-- [ ] Real AI backend for summaries and Ask AI with streaming
+- [x] Auth (Clerk)
+- [x] Ask AI streaming backend (mocked response, real streaming architecture)
 - [ ] PostgreSQL + Prisma
 - [ ] Dark mode
 - [ ] Test suite (Vitest + Playwright)

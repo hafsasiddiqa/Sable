@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LayoutDashboard, Video, CheckSquare, Settings, Menu } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
@@ -61,6 +62,7 @@ export default function DashboardLayout({
             </Sheet>
             <span className="text-sm text-muted-foreground">Workspace</span>
           </div>
+          <UserButton afterSignOutUrl="/" />
         </header>
         <div className="flex-1 p-4 md:p-6">{children}</div>
       </main>

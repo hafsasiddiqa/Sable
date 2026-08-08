@@ -1,9 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { prisma } from "@/lib/prisma";
+import { ProfileForm } from "./profile-form";
 
 const settingsNav = ["Profile", "Workspace", "Billing", "Integrations"];
 
@@ -19,7 +17,7 @@ export default async function SettingsPage() {
 
   const dbUser = await prisma.user.upsert({
     where: { clerkId: clerkUser.id },
-    update: { name, email },
+    update: {},
     create: {
       clerkId: clerkUser.id,
       name,
@@ -57,23 +55,12 @@ export default async function SettingsPage() {
           <CardHeader>
             <CardTitle className="text-base">Profile</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium">Full name</label>
-              <Input defaultValue={dbUser.name} />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium">Email</label>
-              <Input defaultValue={dbUser.email} type="email" disabled />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-medium">Role</label>
-              <Input defaultValue={dbUser.role ?? ""} />
-            </div>
-            <Separator />
-            <div className="flex justify-end">
-              <Button>Save changes</Button>
-            </div>
+          <CardContent>
+            <ProfileForm
+              defaultName={dbUser.name}
+              defaultEmail={dbUser.email}
+              defaultRole={dbUser.role ?? ""}
+            />
           </CardContent>
         </Card>
       </div>

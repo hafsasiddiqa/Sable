@@ -1,11 +1,33 @@
+import { currentUser } from "@clerk/nextjs/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { prisma } from "@/lib/prisma";
 
 const settingsNav = ["Profile", "Workspace", "Billing", "Integrations"];
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const clerkUser = await currentUser();
+
+  if (!clerkUser) {
+    return <p className="text-sm text-muted-foreground">Not signed in.</p>;
+  }
+
+  const email = clerkUser.emailAddresses[0]?.emailAddress ?? "";
+  const name = `${clerkUser.firstName ?? ""} ${clerkUser.lastName ?? ""}`.trim() || "Unnamed User";
+
+  const dbUser = await prisma.user.upsert({
+    where: { clerkId: clerkUser.id },
+    update: { name, email },
+    create: {
+      clerkId: clerkUser.id,
+      name,
+      email,
+      role: "Member",
+    },
+  });
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -38,15 +60,15 @@ export default function SettingsPage() {
           <CardContent className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium">Full name</label>
-              <Input defaultValue="Jordan Diaz" />
+              <Input defaultValue={dbUser.name} />
             </div>
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium">Email</label>
-              <Input defaultValue="jordan@sable.app" type="email" />
+              <Input defaultValue={dbUser.email} type="email" disabled />
             </div>
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium">Role</label>
-              <Input defaultValue="Product Manager" />
+              <Input defaultValue={dbUser.role ?? ""} />
             </div>
             <Separator />
             <div className="flex justify-end">

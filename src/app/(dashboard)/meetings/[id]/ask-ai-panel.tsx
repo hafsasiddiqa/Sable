@@ -17,6 +17,8 @@ export function AskAiPanel({ meetingId }: { meetingId: string }) {
 
     const res = await fetch(`/api/meetings/${meetingId}/ask`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
     });
 
     if (!res.body) {

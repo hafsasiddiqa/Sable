@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.115.0",
     "@clerk/nextjs": "^5.7.6",
     "@hookform/resolvers": "^3.9.0",
     "@prisma/adapter-pg": "^7.9.0",

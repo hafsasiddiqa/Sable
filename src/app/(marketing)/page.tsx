@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, ListChecks, Search } from "lucide-react";
+import { LanternToggle } from "@/components/lantern-toggle";
 
 const features = [
   {
@@ -55,6 +56,7 @@ export default function MarketingPage() {
             <Link href="#" className="hover:text-foreground transition-colors">Docs</Link>
           </nav>
           <div className="flex items-center gap-3">
+            <LanternToggle />
             <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Sign In
             </Link>

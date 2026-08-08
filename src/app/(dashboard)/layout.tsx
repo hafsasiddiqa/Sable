@@ -6,6 +6,7 @@ import { LayoutDashboard, Video, CheckSquare, Settings, Menu } from "lucide-reac
 import { UserButton } from "@clerk/nextjs";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { LanternToggle } from "@/components/lantern-toggle";
 
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -62,7 +63,10 @@ export default function DashboardLayout({
             </Sheet>
             <span className="text-sm text-muted-foreground">Workspace</span>
           </div>
-          <UserButton afterSignOutUrl="/" />
+          <div className="flex items-center gap-2">
+            <LanternToggle />
+            <UserButton afterSignOutUrl="/" />
+          </div>
         </header>
         <div className="flex-1 p-4 md:p-6">{children}</div>
       </main>

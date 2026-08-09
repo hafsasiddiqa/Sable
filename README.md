@@ -1,76 +1,109 @@
-# Sable — AI Meeting Intelligence Platform
+<div align="center">
 
-Sable turns meeting transcripts into searchable, actionable knowledge. It automatically generates summaries, tracks action items, and lets you ask questions about any past meeting.
+<img src="https://readme-typing-svg.demolab.com?font=Georgia&size=32&duration=3000&pause=1000&color=1A1A1A&center=true&vCenter=true&width=600&lines=Sable;AI+Meeting+Intelligence;Turn+meetings+into+knowledge" alt="Typing SVG" />
 
-Live demo: https://sable-rho-gold.vercel.app/
+<br />
 
-## Problem
+**Sable transcribes, summarizes, and tracks action items from your meetings automatically — so nothing important gets lost again.**
 
-Teams lose decisions and commitments buried in meeting transcripts. Sable turns a transcript into a clear summary, trackable action items, and a searchable meeting history.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://sable-rho-gold.vercel.app/)
+[![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.com/)
 
-## Tech Stack
+</div>
 
-Next.js 14, TypeScript, Tailwind CSS, shadcn/ui, Lucide icons. Planned: Framer Motion, TanStack Query, Zustand, React Hook Form, Zod, NextAuth.js, Prisma, PostgreSQL.
+<br />
 
-## Features (current)
+![Sable dashboard preview](./public/dashboard-preview.png)
 
-- Dashboard overview with stat cards and recent meetings
-- Meetings list with clickable cards linking to a detail view
-- Meeting detail page with transcript and tabbed AI panel (Summary, Action Items, Ask AI)
-- Action Items kanban board (To Do, In Progress, Done)
-- Settings page with profile form
-- Fully responsive with a mobile drawer navigation
-- Marketing landing page with pricing tiers and feature highlights
+<br />
 
-## Features (in progress)
+## ✨ Features
 
-- Authentication (NextAuth.js)
-- Real AI-powered summaries and Q&A with streaming responses
-- PostgreSQL database via Prisma, replacing current mock data
-- Dark mode toggle
-- Automated tests
+- 🔐 **Real authentication** — Clerk-powered sign-in/sign-out with protected routes and just-in-time user sync
+- 🗄️ **Real database** — PostgreSQL via Prisma with proper relational schema (Users, Meetings, Action Items)
+- 🤖 **Ask AI** — content-aware Q&A over meeting transcripts with a real streaming architecture
+- 📋 **Action Items kanban** — commitments tracked automatically across To Do / In Progress / Done
+- 📝 **Editable profile** — React Hook Form + Zod validation with a real Server Action write path
+- 🌗 **Dark mode** — a custom hand-built lantern icon toggle with next-themes persistence
+- �� **Fully responsive** — mobile drawer navigation with proper accessibility semantics
+- 🎬 **Framer Motion** — subtle entrance and stagger animations across the marketing page and dashboard
 
-## Folder Structure
+## 🧱 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS + shadcn/ui (Radix UI) |
+| Auth | Clerk |
+| Database | PostgreSQL (Neon) + Prisma 7 |
+| Validation | Zod + React Hook Form |
+| Animation | Framer Motion |
+| Deployment | Vercel |
+
+## 📁 Folder Structure
 
     src/
       app/
         (marketing)/       -> public landing page, served at "/"
         (dashboard)/        -> authenticated app shell
-          dashboard/         -> overview page, served at "/dashboard"
-          meetings/           -> meetings list + "/meetings/[id]" detail page
+          dashboard/         -> overview page
+          meetings/           -> meetings list + "/meetings/[id]" detail with Ask AI
           actions/            -> action items kanban
-          settings/           -> account settings
-        layout.tsx          -> root layout
-        globals.css         -> Tailwind + theme CSS variables
+          settings/           -> profile settings with real validation
+        api/
+          meetings/[id]/ask/  -> streaming Q&A endpoint
+        layout.tsx
+        globals.css
       components/
-        ui/                 -> shadcn/ui primitives (Button, Card, Tabs, Sheet, etc.)
+        ui/                 -> shadcn/ui primitives
+        lantern-toggle.tsx  -> custom dark mode toggle
+        logo.tsx
       lib/
-        utils.ts            -> shared utility functions
+        prisma.ts           -> Prisma client singleton
+    prisma/
+      schema.prisma
+      seed.ts
 
-## Local Setup
+## 🚀 Local Setup
 
-    git clone https://github.com/YOUR_USERNAME/sable.git
+    git clone https://github.com/hafsasiddiqa/Sable.git
     cd sable
     npm install
+    npx prisma migrate dev
+    npx tsx prisma/seed.ts
     npm run dev
 
-Visit http://localhost:3000
+Visit `http://localhost:3000`.
 
-## Build
+You'll also need a `.env.local` with `DATABASE_URL`, `CLERK_SECRET_KEY`, and `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`.
+
+## 🏗️ Build
 
     npm run build
 
-## Roadmap
+## 🗺️ Roadmap
 
-- [ ] Deploy to Vercel
+- [x] Deploy to Vercel
 - [x] Auth (Clerk)
-- [x] Ask AI streaming backend (mocked response, real streaming architecture)
-- [ ] PostgreSQL + Prisma
-- [ ] Dark mode
-- [ ] Test suite (Vitest + Playwright)
+- [x] Real database (Prisma + Neon)
+- [x] Ask AI with streaming architecture
+- [x] Dark mode
+- [x] Framer Motion polish
+- [ ] Automated test suite (Vitest + Playwright)
+- [ ] Real LLM integration (Anthropic API, currently keyword-matched)
 - [ ] Semantic search across meetings
 - [ ] Team/workspace roles
 
-## Author
+## 👤 Author
 
-Built as part of a self-directed portfolio project demonstrating production-level frontend engineering practices.
+Built as a self-directed portfolio project demonstrating production-level frontend engineering: real auth, a relational database, streaming architecture, and thoughtful UI polish.
+
+<div align="center">
+<br />
+<sub>Built with care, one verified step at a time.</sub>
+</div>

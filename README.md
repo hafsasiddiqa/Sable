@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Georgia&size=32&duration=3000&pause=1000&color=1A1A1A&center=true&vCenter=true&width=600&lines=Sable;AI+Meeting+Intelligence;Turn+meetings+into+knowledge" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Georgia&size=32&duration=3000&pause=1000&color=D97706&center=true&vCenter=true&width=600&lines=Sable;AI+Meeting+Intelligence;Turn+meetings+into+knowledge" alt="Typing SVG" />
 
 <br />
 
@@ -29,7 +29,7 @@
 - 📋 **Action Items kanban** — commitments tracked automatically across To Do / In Progress / Done
 - 📝 **Editable profile** — React Hook Form + Zod validation with a real Server Action write path
 - 🌗 **Dark mode** — a custom hand-built lantern icon toggle with next-themes persistence
-- �� **Fully responsive** — mobile drawer navigation with proper accessibility semantics
+- 📱 **Fully responsive** — mobile drawer navigation with proper accessibility semantics
 - 🎬 **Framer Motion** — subtle entrance and stagger animations across the marketing page and dashboard
 
 ## 🧱 Tech Stack

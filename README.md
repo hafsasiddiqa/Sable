@@ -4,7 +4,7 @@
 
 <br />
 
-**Sable transcribes, summarizes, and tracks action items from your meetings automatically — so nothing important gets lost again.**
+**Sable transcribes, summarizes, and tracks action items from your meetings automatically so nothing important gets lost again.**
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://sable-rho-gold.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js_14-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)

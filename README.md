@@ -29,7 +29,7 @@
 - 📋 **Action Items kanban** — commitments tracked automatically across To Do / In Progress / Done
 - 📝 **Editable profile** — React Hook Form + Zod validation with a real Server Action write path
 - 🌗 **Dark mode** — a custom hand-built lantern icon toggle with next-themes persistence
-- �� **Fully responsive** — mobile drawer navigation with proper accessibility semantics
+- 📱**Fully responsive** — mobile drawer navigation with proper accessibility semantics
 - 🎬 **Framer Motion** — subtle entrance and stagger animations across the marketing page and dashboard
 
 ## 🧱 Tech Stack

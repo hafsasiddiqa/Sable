@@ -2,7 +2,7 @@
 
 Sable turns meeting transcripts into searchable, actionable knowledge. It automatically generates summaries, tracks action items, and lets you ask questions about any past meeting.
 
-Live demo: https://sable-chi-jet.vercel.app/
+Live demo: https://sable-rho-gold.vercel.app/
 
 ## Problem
 

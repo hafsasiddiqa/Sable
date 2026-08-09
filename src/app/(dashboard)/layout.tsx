@@ -7,6 +7,7 @@ import { UserButton } from "@clerk/nextjs";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { LanternToggle } from "@/components/lantern-toggle";
+import { Logo } from "@/components/logo";
 
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
@@ -43,7 +44,7 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen">
       <aside className="hidden md:flex w-60 flex-col border-r border-border bg-background px-4 py-6">
-        <div className="mb-8 px-2 text-lg font-semibold">Sable</div>
+        <div className="mb-8 flex items-center gap-2 px-2"><Logo /><span className="text-lg font-semibold">Sable</span></div>
         <NavLinks />
       </aside>
 
@@ -57,7 +58,7 @@ export default function DashboardLayout({
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-64 p-6">
-                <SheetTitle className="mb-8">Sable</SheetTitle>
+                <SheetTitle className="mb-8 flex items-center gap-2"><Logo />Sable</SheetTitle>
                 <NavLinks onNavigate={() => setOpen(false)} />
               </SheetContent>
             </Sheet>

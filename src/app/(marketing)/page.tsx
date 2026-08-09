@@ -1,8 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparkles, ListChecks, Search } from "lucide-react";
 import { LanternToggle } from "@/components/lantern-toggle";
+import { Logo } from "@/components/logo";
+import { AnimatedHero } from "./animated-hero";
 
 const features = [
   {
@@ -49,7 +52,7 @@ export default function MarketingPage() {
     <div className="flex flex-col">
       <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-          <span className="text-lg font-semibold">Sable</span>
+          <div className="flex items-center gap-2"><Logo /><span className="text-lg font-semibold">Sable</span></div>
           <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
             <Link href="#features" className="hover:text-foreground transition-colors">Product</Link>
             <Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link>
@@ -67,29 +70,18 @@ export default function MarketingPage() {
         </div>
       </header>
 
-      <section className="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 pt-24 pb-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight">
-          Turn every meeting into searchable knowledge
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-xl">
-          Sable transcribes, summarizes, and tracks action items from your meetings automatically —
-          so nothing important gets lost again.
-        </p>
-        <div className="flex items-center gap-3">
-          <Button asChild size="lg">
-            <Link href="/dashboard">Get Started Free</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="#features">Watch Demo</Link>
-          </Button>
-        </div>
-      </section>
+      <AnimatedHero />
 
       <section className="mx-auto max-w-5xl px-6 pb-16">
         <div className="rounded-xl border border-border bg-muted/30 p-2 shadow-sm">
-          <div className="rounded-lg border border-border bg-background p-8 text-center text-sm text-muted-foreground">
-            [ Product screenshot placeholder ]
-          </div>
+          <Image
+            src="/dashboard-preview.png"
+            alt="Sable dashboard showing meeting overview, stats, and recent meetings"
+            width={1440}
+            height={720}
+            className="rounded-lg border border-border w-full h-auto"
+            priority
+          />
         </div>
       </section>
 
@@ -147,7 +139,7 @@ export default function MarketingPage() {
 
       <footer className="border-t border-border">
         <div className="mx-auto max-w-5xl px-6 py-10 text-sm text-muted-foreground text-center">
-          © 2026 Sable. Built as a portfolio project.
+          © 2026 Sable. All rights reserved.
         </div>
       </footer>
     </div>
